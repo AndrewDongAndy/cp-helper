@@ -10,7 +10,7 @@ def contest_url(contest_id: str) -> str:
 
 class AtCoder(Judge):
     name = 'AtCoder'
-    github_repo = 'misc-cp'
+    github_repo = 'cp-solutions'
     github_directory = 'atcoder'
 
     @staticmethod

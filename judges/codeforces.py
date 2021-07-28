@@ -10,8 +10,8 @@ def contest_url(contest_id: str) -> str:
 
 class Codeforces(Judge):
     name = 'Codeforces'
-    github_repo = 'codeforces'
-    github_directory = None
+    github_repo = 'cp-solutions'
+    github_directory = 'codeforces'
 
     @staticmethod
     def link(problem_id: str):

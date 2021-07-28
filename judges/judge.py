@@ -31,18 +31,15 @@ def str_to_base64_str(s: str) -> str:
     return base64.b64encode(s.encode()).decode()
 
 
-TEMPLATE_FILE = './templates/template.cpp'
-BUILD_FILE = './templates/build.bat'
 TEMPLATE_EXTENSION = '.cpp'  # the template is only for C++
-
 TEMPLATE = resources.read_text(templates, 'template.cpp')
 BUILD_COMMAND = resources.read_text(templates, 'build.bat')
 
 
 class Judge:
     name = 'generic judge'
-    github_repo = 'misc-cp'
-    github_directory = ''
+    github_repo = 'cp-solutions'
+    github_directory = 'misc'
 
     """Default values. This class should be extended."""
     @staticmethod

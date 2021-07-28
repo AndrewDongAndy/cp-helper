@@ -2,6 +2,10 @@ from .judge import Judge
 
 
 class Kattis(Judge):
+    name = 'Kattis'
+    github_repo = 'cp-solutions'
+    github_directory = 'kattis'
+
     @staticmethod
     def link(problem_id):
         return f'https://open.kattis.com/problems/{problem_id}'

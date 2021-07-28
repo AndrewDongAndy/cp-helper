@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 class Boj(Judge):
     name = 'Baekjoon Online Judge'
-    github_repo = 'misc-cp'
+    github_repo = 'cp-solutions'
     github_directory = 'boj'
 
     @staticmethod

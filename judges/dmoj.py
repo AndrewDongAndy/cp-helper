@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 
 class Dmoj(Judge):
     name = 'DMOJ'
-    github_repo = 'dmoj-solutions'
-    github_directory = ''
+    github_repo = 'cp-solutions'
+    github_directory = 'dmoj'
 
     @staticmethod
     def link(problem_id):
