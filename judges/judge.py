@@ -1,5 +1,13 @@
 """
 The base class.
+
+
+TODO: "sanitize" problem IDs, e.g.:
+
+AtCoder problem IDs are always lowercase
+Boj problem IDs are always numbers with at least 4 digits
+Codeforces problem IDs are always uppercase
+DMOJ and Kattis problem IDs are always (?) lowercase
 """
 
 
@@ -8,7 +16,6 @@ from datetime import datetime
 from importlib import resources
 import os
 import shutil
-import sys  # TODO: make cmd-like interface for this script
 import requests
 
 from .. import templates
@@ -37,11 +44,11 @@ BUILD_COMMAND = resources.read_text(templates, 'build.bat')
 
 
 class Judge:
+    """Default values for a Judge. This class should be extended."""
     name = 'generic judge'
     github_repo = 'cp-solutions'
     github_directory = 'misc'
 
-    """Default values. This class should be extended."""
     @staticmethod
     # TODO: in Python 3.10, type this as str | None
     def link(problem_id) -> str:
