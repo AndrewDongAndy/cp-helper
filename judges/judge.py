@@ -172,6 +172,7 @@ class Judge:
             with open(local_filepath) as f:
                 solution = f.read()
         except FileNotFoundError:
+            print(f'ERROR: file {local_filepath} not found')
             return False
 
         github_filepath = cls.github_directory
