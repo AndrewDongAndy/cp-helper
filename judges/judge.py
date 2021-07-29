@@ -11,7 +11,7 @@ import shutil
 import sys  # TODO: make cmd-like interface for this script
 import requests
 
-from . import templates
+from .. import templates
 
 import dotenv
 dotenv.load_dotenv()
