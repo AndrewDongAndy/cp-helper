@@ -75,7 +75,7 @@ class Judge:
         if not os.path.isdir(directory):
             os.mkdir(directory)
 
-        code_file = f'{directory}/{filename}'
+        code_file = os.path.join(directory, filename)
 
         # check for overwriting
         if os.path.isfile(code_file):
@@ -99,16 +99,17 @@ class Judge:
         template = template.replace('FILENAME', filename)
         template = template.replace('PROBLEM_LINK', link)
 
-        build_command = BUILD_COMMAND.replace('FILENAME', filename)
-        build_file = f'{directory}/b.bat'
-
         # write to files
         with open(code_file, 'w') as out:
             out.write(template)
-        with open(build_file, 'w') as out:
-            out.write(build_command)
+        
+        # use vscode workspace setup instead
+        # build_command = BUILD_COMMAND.replace('FILENAME', filename)
+        # build_file = os.path.join(directory, 'b.bat')
+        # with open(build_file, 'w') as out:
+        #     out.write(build_command)
 
-        input_file = f'{directory}/in'
+        input_file = os.path.join(directory, 'in')
         # only write input_file if doesn't exist
         if not os.path.isfile(input_file):
             with open(input_file, 'w') as out:
@@ -126,14 +127,14 @@ class Judge:
             input_data = []
         # write input data
         for i, data in enumerate(input_data, start=1):
-            in_file = f'{directory}/in{i}'
+            in_file = os.path.join(directory, f'in{i}')
             with open(in_file, 'w') as f:
                 f.write(data)
 
         confirmation = 'template '
         if cls.name is not None:
             confirmation += f'for {cls.name} problem '
-        confirmation += f'written to {directory}/{filename}'
+        confirmation += f'written to {code_file}'
         confirmation += f'; {len(input_data)} input files downloaded'
         print(confirmation)
 
@@ -164,21 +165,18 @@ class Judge:
         return []
 
     @classmethod
-    def upload_solution(cls, problem_id: str, suffix=None, delete_local=True):
-        local_folder, local_file = cls.local_directory_and_filename(
-            problem_id, suffix)
-        local_filepath = f'{local_folder}/{local_file}'
+    def upload_solution(cls, file: str, delete_local=True) -> bool:
         try:
-            with open(local_filepath) as f:
+            with open(file) as f:
                 solution = f.read()
         except FileNotFoundError:
-            print(f'ERROR: file {local_filepath} not found')
+            print(f'ERROR: file {file} not found')
             return False
+        
+        head, tail = os.path.split(file)
 
-        github_filepath = cls.github_directory
-        if github_filepath != '':
-            github_filepath += '/'
-        github_filepath += local_file
+        assert cls.github_directory != ''
+        github_filepath = f'{cls.github_directory}/{tail}'
 
         url = github_api_url(
             f'/repos/{GITHUB_USERNAME}/{cls.github_repo}/contents/{github_filepath}')
@@ -188,10 +186,10 @@ class Judge:
         res = session.get(url)
         if res.status_code == 200:
             sha = res.json()['sha']
-            commit_message = f'Update existing solution for problem {local_file} from Python script'
+            commit_message = f'Update existing solution {tail} from Python script'
         else:
             sha = None
-            commit_message = f'Upload new solution for problem {local_file} from Python script'
+            commit_message = f'Upload new solution {tail} from Python script'
 
         # upload the new data
         data = dict(
@@ -209,11 +207,12 @@ class Judge:
 
         if 200 <= res.status_code < 300:
             print(
-                f'successfully pushed {local_filepath} to GitHub repo {cls.github_repo}, path {github_filepath}')
+                f'successfully pushed {tail} to GitHub repo {cls.github_repo}, path {github_filepath}')
             print(f'message: {commit_message}')
             if delete_local:
-                shutil.rmtree(local_folder)
-                print(f'deleted directory {local_folder} locally')
+                shutil.rmtree(head)
+                print(f'deleted directory {head} locally')
             return True
-        print(f'local file {local_filepath} not uploaded')
+
+        print(f'local file {tail} not uploaded')
         return False
