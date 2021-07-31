@@ -41,13 +41,15 @@ class AtCoder(Judge):
                 input_data.append(data)
         return input_data
 
-    @classmethod
-    def download_contest(cls, contest_id) -> bool:
-        res = requests.get(contest_url(contest_id))
-        if not (200 <= res.status_code < 300):
-            return False
-        html = res.text
-        soup = BeautifulSoup(html, 'html.parser')
-        tags = soup.select('span.lang-en > div.row tbody > tr > td')
-        problems = list(filter(lambda s: len(s) == 1, [tag.text.strip() for tag in tags]))
-        cls.make_contest_files(f'{contest_id}_', problem_id_suffixes=problems)
+    # this doesn't work for live contests since the problems are not published
+    # when the contest starts (only when the contest is over?)
+    # @classmethod
+    # def download_contest(cls, contest_id) -> bool:
+    #     res = requests.get(contest_url(contest_id))
+    #     if not (200 <= res.status_code < 300):
+    #         return False
+    #     html = res.text
+    #     soup = BeautifulSoup(html, 'html.parser')
+    #     tags = soup.select('span.lang-en > div.row tbody > tr > td')
+    #     problems = list(filter(lambda s: len(s) == 1, [tag.text.strip().lower() for tag in tags]))
+    #     cls.make_contest_files(f'{contest_id}_', problem_id_suffixes=problems)
