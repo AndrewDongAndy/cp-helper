@@ -166,6 +166,7 @@ class Judge:
 
     @classmethod
     def upload_solution(cls, file: str, delete_local=True) -> bool:
+        # file - full path of the file to remove
         try:
             with open(file) as f:
                 solution = f.read()
@@ -210,8 +211,13 @@ class Judge:
                 f'successfully pushed {tail} to GitHub repo {cls.github_repo}, path {github_filepath}')
             print(f'message: {commit_message}')
             if delete_local:
-                shutil.rmtree(head)
-                print(f'deleted directory {head} locally')
+                # delete the file
+                os.remove(file)
+                print(f'deleted locally: file {file}')
+                if all(os.splitext(s)[1] != '.cpp' for s in os.listdir(head)):
+                    # no more '.cpp' files; 
+                    shutil.rmtree(head)
+                    print(f'deleted locally: directory {head}')
             return True
 
         print(f'local file {tail} not uploaded')
