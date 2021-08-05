@@ -211,13 +211,19 @@ class Judge:
                 f'successfully pushed {tail} to GitHub repo {cls.github_repo}, path {github_filepath}')
             print(f'message: {commit_message}')
             if delete_local:
-                # delete the file
-                os.remove(file)
-                print(f'deleted locally: file {file}')
-                if all(os.splitext(s)[1] != '.cpp' for s in os.listdir(head)):
+                cpp_count = 0
+                for s in os.listdir(head):
+                    if os.splitext(s)[1] == '.cpp':
+                        cpp_count += 1
+                if cpp_count == 1:
                     # no more '.cpp' files; 
                     shutil.rmtree(head)
                     print(f'deleted locally: directory {head}')
+                else:
+                    assert cpp_count > 1
+                    # delete the file
+                    os.remove(file)
+                    print(f'deleted locally: file {file}')
             return True
 
         print(f'local file {tail} not uploaded')
