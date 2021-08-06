@@ -213,7 +213,7 @@ class Judge:
             if delete_local:
                 cpp_count = 0
                 for s in os.listdir(head):
-                    if os.splitext(s)[1] == '.cpp':
+                    if os.path.splitext(s)[1] == '.cpp':
                         cpp_count += 1
                 if cpp_count == 1:
                     # no more '.cpp' files; 
