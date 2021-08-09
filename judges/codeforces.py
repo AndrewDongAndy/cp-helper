@@ -36,7 +36,7 @@ class Codeforces(Judge):
     def write_template_gym(cls, gym_id, problem: str):
         cls.write_template(
             f'gym_{gym_id}{problem}',
-            link=f'https://codeforces.com/contest/{gym_id}/problem/{problem}',
+            link=f'https://codeforces.com/gym/{gym_id}/problem/{problem}',
         )
 
     @classmethod
