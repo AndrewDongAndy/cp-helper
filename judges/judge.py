@@ -109,7 +109,7 @@ class Judge:
         # with open(build_file, 'w') as out:
         #     out.write(build_command)
 
-        input_file = os.path.join(directory, 'in')
+        input_file = os.path.join(directory, 'in1')
         # only write input_file if doesn't exist
         if not os.path.isfile(input_file):
             with open(input_file, 'w') as out:
