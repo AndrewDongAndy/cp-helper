@@ -165,7 +165,7 @@ class Judge:
         return []
 
     @classmethod
-    def upload_solution(cls, file: str, delete_local=True) -> bool:
+    def upload_solution(cls, file: str, github_path=None, delete_local=True) -> bool:
         # file - full path of the file to remove
         try:
             with open(file) as f:
@@ -175,9 +175,11 @@ class Judge:
             return False
         
         head, tail = os.path.split(file)
+        if github_path is None:
+            github_path = tail
 
         assert cls.github_directory != ''
-        github_filepath = f'{cls.github_directory}/{tail}'
+        github_filepath = f'{cls.github_directory}/{github_path}'
 
         url = github_api_url(
             f'/repos/{GITHUB_USERNAME}/{cls.github_repo}/contents/{github_filepath}')
@@ -187,10 +189,10 @@ class Judge:
         res = session.get(url)
         if res.status_code == 200:
             sha = res.json()['sha']
-            commit_message = f'Update existing solution {tail} from Python script'
+            commit_message = f'Update existing solution {github_path} from Python script'
         else:
             sha = None
-            commit_message = f'Upload new solution {tail} from Python script'
+            commit_message = f'Upload new solution {github_path} from Python script'
 
         # upload the new data
         data = dict(
