@@ -38,6 +38,7 @@ class Fhc(Judge):
     @staticmethod
     def link(problem_id: str) -> str:
         # use format '<year>_<round>_<problem>'
+        # e.g. 2021_round2_a
         # <round> is one of: qual | round1 | round2 | round3 | finals
         year, round, problem = problem_id.split('_')
         round = get_round_for_link(round)
