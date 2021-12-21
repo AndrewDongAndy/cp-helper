@@ -1,0 +1,39 @@
+{
+  "tasks": [
+    {
+      "type": "cppbuild",
+      "label": "C/C++: g++.exe build active file",
+      "command": "g++",
+      "args": [
+        "${file}",
+        "-std=c++17",
+        "-D_DEBUG",
+        "-D_GLIBCXX_DEBUG",
+        "-Wl,--stack=268435456",
+        "-Wall",
+        "-Wextra",
+        "-Wfatal-errors",
+        "-Wshadow",
+        "-O2",
+        "-Wno-unused-parameter"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": ["$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false
+      }
+    }
+  ],
+  "version": "2.0.0"
+}

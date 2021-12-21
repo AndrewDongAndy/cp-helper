@@ -1,0 +1,143 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/__pycache__": true, // for cp_helper
+
+    // directories that don't involve doing actual competitive programming
+    // but that may need to be developed sometimes
+    // ".vscode": true,
+    // "cp_helper": true,
+
+    "make_files.py": true,
+    "cf_gym_make.py": true,
+    "upload.py": true,
+    
+    // uncomment when in "contest mode"
+    // "algorithms": true,
+    // "solve_later": true,
+    // "to_review.txt": true,
+  },
+
+  // commands for competitive programming!
+  "multiCommand.commands": {
+    "cp.buildAndRun": {
+      "sequence": [
+        "workbench.action.files.save",
+        "workbench.action.terminal.focus",
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "\u0015", // Ctrl+U (delete what's currently entered)
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "ulimit -s 262144\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "rm a\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "cd ${fileDirname}\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "g++ ${fileBasename} -std=c++17 -D_DEBUG -D_GLIBCXX_DEBUG -Wall -Wextra -Wfatal-errors -Wshadow -Wno-unused-parameter -O2 -o a\n"
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "./a < in1\n"
+          },
+        },
+      ]
+    },
+
+    // disable in contest mode?
+    "cp.upload": {
+      "sequence": [
+        "workbench.action.files.save",
+        "workbench.action.terminal.focus",
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "\u0015", // Ctrl+U (delete what's currently entered)
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "cd ${workspaceFolder}\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "python3.9 upload.py ${file}\n"
+          },
+        },
+        "workbench.action.closeActiveEditor",
+        "workbench.action.closePanel",
+        "workbench.action.focusActiveEditorGroup",
+      ]
+    }
+  },
+
+  "editor.suggest.showSnippets": false,
+
+  "[cpp]": {
+    "editor.autoIndent": "full",
+    "editor.trimAutoWhitespace": false,
+    "editor.tabSize": 2,
+    "editor.wordBasedSuggestions": false,
+    "editor.suggest.showSnippets": false,
+    "editor.inlineSuggest.enabled": true,
+    "editor.semanticHighlighting.enabled": true,
+    // "editor.defaultFormatter": "xaver.clang-format",
+    // "editor.defaultFormatter": null,
+  },
+
+  // C_Cpp stuff
+  "C_Cpp.autocomplete": "Disabled",
+  "C_Cpp.autocompleteAddParentheses": false,
+  "C_Cpp.default.cppStandard": "c++17",
+
+  "[python]": {
+    "editor.wordBasedSuggestions": false
+  },
+
+  "[latex]": {
+    "editor.formatOnPaste": false,
+    "editor.suggestSelection": "recentlyUsedByPrefix",
+    "editor.wordWrapColumn": 100,
+    "editor.wordWrap": "bounded"
+  },
+
+  // "terminal.integrated.profiles.windows": {
+  //   "PowerShell": null,
+  //   "Command Prompt": {
+  //     "path": [
+  //       "${env:windir}\\Sysnative\\cmd.exe",
+  //       "${env:windir}\\System32\\cmd.exe"
+  //     ],
+  //     "args": [],
+  //     "icon": "terminal-cmd"
+  //   },
+  //   "Git Bash": null
+  // },
+  // "terminal.integrated.defaultProfile.windows": "C:\\Windows\\System32\\cmd.exe (migrated)"
+}
