@@ -37,7 +37,7 @@
         {
           "command": "workbench.action.terminal.sendSequence",
           "args": {
-            "text": "ulimit -s 262144\n",
+            "text": "cd ${fileDirname}\n",
           },
         },
         {
@@ -49,7 +49,7 @@
         {
           "command": "workbench.action.terminal.sendSequence",
           "args": {
-            "text": "cd ${fileDirname}\n",
+            "text": "ulimit -s 262144\n",
           },
         },
         {
@@ -119,6 +119,7 @@
   "[python]": {
     "editor.wordBasedSuggestions": false
   },
+  "python.defaultInterpreterPath": "python3.9",
 
   "[latex]": {
     "editor.formatOnPaste": false,

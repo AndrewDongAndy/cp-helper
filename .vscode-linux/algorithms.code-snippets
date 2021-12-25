@@ -492,7 +492,7 @@
     "Compress": {
         "scope": "cpp",
         "prefix": "compress",
-        "body": ["template <typename T>","void MakeUnique(vector<T>& v) {","  sort(v.begin(), v.end());","  v.resize(unique(v.begin(), v.end()) - v.begin());","}","","template <typename T>","vector<int> Compressed(const vector<T>& a, const vector<T>& v) {","  int n = (int) a.size();","  vector<int> res(n);","  for (int i = 0; i < n; i++) {","    res[i] = (int) (lower_bound(v.begin(), v.end(), a[i]) - v.begin());","  }","  return res;","}","","template <typename T>","vector<int> Compressed(vector<T>& a) {","  vector<T> v = a;","  MakeUnique(v);","  return Compressed(a, v);","}"],
+        "body": ["template <typename T>","void MakeUnique(vector<T>& v) {","  sort(v.begin(), v.end());","  v.resize(unique(v.begin(), v.end()) - v.begin());","}","","void Compress(vector<int>& a, const vector<int>& v) {","  int n = a.size();","  for (int i = 0; i < n; i++) {","    a[i] = lower_bound(v.begin(), v.end(), a[i]) - v.begin();","  }","}","","void Compress(vector<int>& a) {","  vector<int> v = a;","  MakeUnique(v);","  Compress(a, v);","}","","template <typename T>","vector<int> Compressed(const vector<T>& a, const vector<T>& v) {","  int n = (int) a.size();","  vector<int> res(n);","  for (int i = 0; i < n; i++) {","    res[i] = (int) (lower_bound(v.begin(), v.end(), a[i]) - v.begin());","  }","  return res;","}","","template <typename T>","vector<int> Compressed(vector<T>& a) {","  vector<T> v = a;","  MakeUnique(v);","  return Compressed(a, v);","}"],
         "description": "Compress",
     }
     ,
