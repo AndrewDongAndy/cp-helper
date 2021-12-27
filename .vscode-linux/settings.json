@@ -55,6 +55,12 @@
         {
           "command": "workbench.action.terminal.sendSequence",
           "args": {
+            "text": "clear\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
             "text": "g++ ${fileBasename} -std=c++17 -D_DEBUG -D_GLIBCXX_DEBUG -Wall -Wextra -Wfatal-errors -Wshadow -Wno-unused-parameter -O2 -o a\n"
           },
         },
@@ -120,13 +126,6 @@
     "editor.wordBasedSuggestions": false
   },
   "python.defaultInterpreterPath": "python3.9",
-
-  "[latex]": {
-    "editor.formatOnPaste": false,
-    "editor.suggestSelection": "recentlyUsedByPrefix",
-    "editor.wordWrapColumn": 100,
-    "editor.wordWrap": "bounded"
-  },
 
   // "terminal.integrated.profiles.windows": {
   //   "PowerShell": null,
