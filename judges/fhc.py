@@ -1,4 +1,4 @@
-from .judge import Judge, TEMPLATE_EXTENSION
+from .judge import Judge
 
 
 ROUND_PAIRS = [

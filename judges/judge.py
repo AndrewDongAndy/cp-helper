@@ -15,8 +15,9 @@ import base64
 from datetime import datetime
 from importlib import resources
 import os
-import shutil
 import requests
+
+from send2trash import send2trash
 
 from .. import templates
 
@@ -40,7 +41,7 @@ def str_to_base64_str(s: str) -> str:
 
 TEMPLATE_EXTENSION = '.cpp'  # the template is only for C++
 TEMPLATE = resources.read_text(templates, 'template.cpp')
-BUILD_COMMAND = resources.read_text(templates, 'build.bat')
+# BUILD_COMMAND = resources.read_text(templates, 'build.bat')
 
 
 class Judge:
@@ -219,12 +220,13 @@ class Judge:
                         cpp_count += 1
                 if cpp_count == 1:
                     # no more '.cpp' files; 
-                    shutil.rmtree(head)
+                    # shutil.rmtree(head)
+                    send2trash(head)
                     print(f'deleted locally: directory {head}')
                 else:
                     assert cpp_count > 1
                     # delete the file
-                    os.remove(file)
+                    send2trash(file)
                     print(f'deleted locally: file {file}')
             return True
 
