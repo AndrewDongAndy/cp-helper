@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
         // "<",
         nullptr,
     };
-    popen()
+    // popen(;
 
     for (int test = 0; test < TESTS_PER_PROCESS; test++) {
       int ret = execv(sol_c_str, sol_argv);
