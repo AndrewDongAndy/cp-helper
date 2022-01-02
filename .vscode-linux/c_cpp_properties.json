@@ -1,0 +1,25 @@
+{
+  "configurations": [
+    {
+      "name": "Linux",
+      "includePath": ["${workspaceFolder}/**"],
+      "defines": [],
+      "compilerPath": "/usr/bin/g++",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "linux-gcc-x64",
+      "compilerArgs": [
+        "-std=c++17",
+        "-D_DEBUG",
+        "-D_GLIBCXX_DEBUG",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wfatal-errors",
+        "-Wpedantic",
+        "-Wshadow",
+        "-Wno-unused-parameter"
+      ]
+    }
+  ],
+  "version": 4
+}

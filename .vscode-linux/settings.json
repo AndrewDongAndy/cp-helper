@@ -14,7 +14,7 @@
 
     "make_files.py": true,
     "cf_gym_make.py": true,
-    "upload.py": true,
+    // "upload.py": true,
     
     // uncomment when in "contest mode"
     // "algorithms": true,
@@ -61,13 +61,62 @@
         {
           "command": "workbench.action.terminal.sendSequence",
           "args": {
-            "text": "g++ ${fileBasename} -std=c++17 -D_DEBUG -D_GLIBCXX_DEBUG -Wall -Wextra -Wfatal-errors -Wshadow -Wno-unused-parameter -O2 -o a\n"
+            "text": "g++ ${fileBasename} -std=c++17 -D_DEBUG -D_GLIBCXX_DEBUG -Wall -Wextra -Werror -Wfatal-errors -Wpedantic -Wshadow -Wno-unused-parameter -O2 -o a\n"
           },
         },
         {
           "command": "workbench.action.terminal.sendSequence",
           "args": {
             "text": "./a < in1\n"
+          },
+        },
+      ]
+    },
+
+    "cp.buildAndDebug": {
+      "sequence": [
+        "workbench.action.files.save",
+        "workbench.action.terminal.focus",
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "\u0015", // Ctrl+U (delete what's currently entered)
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "cd ${fileDirname}\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "rm a\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "ulimit -s 262144\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "clear\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "g++ ${fileBasename} -std=c++17 -D_DEBUG -D_GLIBCXX_DEBUG -Wall -Wextra -Werror -Wfatal-errors -Wpedantic -Wshadow -Wno-unused-parameter -g -o a\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "gdb a\n",
           },
         },
       ]
@@ -113,9 +162,11 @@
     "editor.suggest.showSnippets": false,
     "editor.inlineSuggest.enabled": true,
     "editor.semanticHighlighting.enabled": true,
-    // "editor.defaultFormatter": "xaver.clang-format",
+    "editor.defaultFormatter": "mjohns.clang-format",
     // "editor.defaultFormatter": null,
   },
+
+  "clang-format.executable.linux": "clang-format-12",
 
   // C_Cpp stuff
   "C_Cpp.autocomplete": "Disabled",
