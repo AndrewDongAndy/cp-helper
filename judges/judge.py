@@ -103,7 +103,7 @@ class Judge:
         # write to files
         with open(code_file, 'w') as out:
             out.write(template)
-        
+
         # use vscode workspace setup instead
         # build_command = BUILD_COMMAND.replace('FILENAME', filename)
         # build_file = os.path.join(directory, 'b.bat')
@@ -174,7 +174,7 @@ class Judge:
         except FileNotFoundError:
             print(f'ERROR: file {file} not found')
             return False
-        
+
         head, tail = os.path.split(file)
         if github_path is None:
             github_path = tail
@@ -219,7 +219,7 @@ class Judge:
                     if os.path.splitext(s)[1] == '.cpp':
                         cpp_count += 1
                 if cpp_count == 1:
-                    # no more '.cpp' files; 
+                    # no more '.cpp' files;
                     # shutil.rmtree(head)
                     send2trash(head)
                     print(f'deleted locally: directory {head}')
