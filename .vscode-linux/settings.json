@@ -12,7 +12,7 @@
     // ".vscode": true,
     // "cp_helper": true,
 
-    "make_files.py": true,
+    // "make_files.py": true,
     "cf_gym_make.py": true,
     // "upload.py": true,
     
@@ -61,7 +61,7 @@
         {
           "command": "workbench.action.terminal.sendSequence",
           "args": {
-            "text": "g++ ${fileBasename} -std=c++17 -D_DEBUG -D_GLIBCXX_DEBUG -Wall -Wextra -Werror -Wfatal-errors -Wpedantic -Wshadow -Wno-unused-parameter -O2 -o a\n"
+            "text": "g++ ${fileBasename} -std=c++17 -D_DEBUG -D_GLIBCXX_DEBUG -Wall -Wextra -Wfatal-errors -Wpedantic -Wshadow -Wno-unused-parameter -O2 -o a\n"
           },
         },
         {
@@ -110,7 +110,7 @@
         {
           "command": "workbench.action.terminal.sendSequence",
           "args": {
-            "text": "g++ ${fileBasename} -std=c++17 -D_DEBUG -D_GLIBCXX_DEBUG -Wall -Wextra -Werror -Wfatal-errors -Wpedantic -Wshadow -Wno-unused-parameter -g -o a\n",
+            "text": "g++ ${fileBasename} -std=c++17 -D_DEBUG -D_GLIBCXX_DEBUG -Wall -Wextra -Wfatal-errors -Wpedantic -Wshadow -Wno-unused-parameter -g -o a\n",
           },
         },
         {
@@ -121,6 +121,97 @@
         },
       ]
     },
+
+    "cp.multiTest": {
+      "sequence": [
+        "workbench.action.files.save",
+        "workbench.action.terminal.focus",
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "cd ${fileDirname}\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "rm a\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "ulimit -s 262144\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "clear\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            // need -pthread since that is what std::thread depends on
+            "text": "g++ ${fileBasename} -std=c++17 -D_DEBUG -D_GLIBCXX_DEBUG -D_MULTI_TEST -pthread -Wall -Wextra -Wfatal-errors -Wpedantic -Wshadow -Wno-unused-parameter -O2 -o a\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            // need -pthread since that is what std::thread depends on
+            "text": "./a\n",
+          },
+        },
+      ]
+    },
+    /*
+    "cp.multiTest": {
+      "sequence": [
+        "workbench.action.files.save",
+        "workbench.action.terminal.focus",
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "\u0015", // Ctrl+U (delete what's currently entered)
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            // for debugging purposes only
+            "text": "cd ${workspaceFolder}/cp_helper/multi-testing && make\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "cd ${workspaceFolder}\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "ulimit -s 262144\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "clear\n",
+          },
+        },
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            // path to the testing executable
+            "text": "cp_helper/multi-testing/test ${file}\n",
+          },
+        },
+      ]
+    },
+    */
 
     // disable in contest mode?
     "cp.upload": {
@@ -149,7 +240,7 @@
         "workbench.action.closePanel",
         "workbench.action.focusActiveEditorGroup",
       ]
-    }
+    },
   },
 
   "editor.suggest.showSnippets": false,
