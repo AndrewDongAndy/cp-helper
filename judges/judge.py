@@ -52,7 +52,7 @@ class Judge:
 
     @staticmethod
     # TODO: in Python 3.10, type this as str | None
-    def link(problem_id) -> str:
+    def link(problem_id: str) -> str:
         return 'no source provided'
 
     @staticmethod
