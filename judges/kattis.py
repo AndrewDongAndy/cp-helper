@@ -31,27 +31,39 @@ class Kattis(Judge):
     def get_input_data(cls, html: str) -> list[str]:
         soup = BeautifulSoup(html, 'html.parser')
         tags = soup.select('table.sample')
-        print(tags)
-        return []
         input_data: list[str] = []
-        for tag in tags:
-            if tag.text.startswith('Sample Input'):
-                nxt = tag.next_sibling
-                if nxt == '\n':
-                    nxt = nxt.next_sibling
-                data = nxt.text
-                input_data.append(data)
+        for table in tags:
+            assert table['summary'] == 'sample data'
+            pre_tags = table.select('tr > td > pre')
+            assert len(pre_tags) == 2
+            data = pre_tags[0].text
+            input_data.append(data)
         return input_data
 
-    # @classmethod
-
-    # @classmethod
-    # def download_contest(cls, contest_id) -> bool:
-    #     res = requests.get(contest_url(contest_id))
-    #     if not (200 <= res.status_code < 300):
-    #         return False
-    #     html = res.text
-    #     soup = BeautifulSoup(html, 'html.parser')
-    #     anchor_tags = soup.select('tr > td.id > a')
-    #     problems = [tag.text.strip() for tag in anchor_tags]
-    #     cls.make_contest_files(contest_id, problem_id_suffixes=problems)
+    @classmethod
+    def download_contest(cls, contest_id: str) -> bool:
+        res = requests.get(contest_url(contest_id))
+        if not (200 <= res.status_code < 300):
+            return False
+        html = res.text
+        soup = BeautifulSoup(html, 'html.parser')
+        rows = soup.select('table#contest_problem_list > tbody > tr')
+        letters = []
+        link_suffixes = []
+        for row in rows:
+            letter = row.select_one('th.problem_letter').text.strip()
+            anchor = row.find('a', href=True)
+            link = anchor['href']
+            letters.append(letter)
+            link_suffixes.append(link.split('/')[-1])
+        # print(letters, links)
+        # print(problems)
+        links = [
+            f'https://{contest_id}.kattis.com/problems/{suffix}'
+            for suffix in link_suffixes
+        ]
+        cls.make_contest_files(
+            # prefix=f'{contest_id}_',
+            problem_id_suffixes=letters,
+            links=links,
+        )
