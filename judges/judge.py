@@ -43,6 +43,10 @@ TEMPLATE_EXTENSION = '.cpp'  # the template is only for C++
 TEMPLATE = resources.read_text(templates, 'template.cpp')
 # BUILD_COMMAND = resources.read_text(templates, 'build.bat')
 
+SOURCE_EXTENSIONS = [
+    '.cpp',
+    '.py',
+]
 
 class Judge:
     """Default values for a Judge. This class should be extended."""
@@ -214,17 +218,17 @@ class Judge:
                 f'successfully pushed {tail} to GitHub repo {cls.github_repo}, path {github_filepath}')
             print(f'message: {commit_message}')
             if delete_local:
-                cpp_count = 0
-                for s in os.listdir(head):
-                    if os.path.splitext(s)[1] == '.cpp':
-                        cpp_count += 1
-                if cpp_count == 1:
-                    # no more '.cpp' files;
+                source_files = sum(
+                    int(os.path.splitext(s)[1] in SOURCE_EXTENSIONS)
+                    for s in os.listdir(head)
+                )
+                if source_files == 1:
+                    # no more source files;
                     # shutil.rmtree(head)
                     send2trash(head)
                     print(f'deleted locally: directory {head}')
                 else:
-                    assert cpp_count > 1
+                    assert source_files > 1
                     # delete the file
                     send2trash(file)
                     print(f'deleted locally: file {file}')
