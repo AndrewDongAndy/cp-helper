@@ -47,14 +47,14 @@ class Fhc(Judge):
         return f'https://www.facebook.com/codingcompetitions/hacker-cup/{year}/{round}/problems/{problem}'
 
     @staticmethod
-    def local_directory_and_filename(problem_id, suffix=None):
+    def local_directory_and_filename_no_ext(problem_id, suffix=None):
         year, round, problem = problem_id.split('_')
         year, round, problem = problem_id.split('_')
         round = get_round_for_link(round)
         problem = problem.upper()
         
         directory = problem
-        filename = f'{problem}.cpp'
+        filename = f'{problem}'
         return (directory, filename)
 
     @classmethod

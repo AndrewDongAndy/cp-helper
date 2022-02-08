@@ -39,14 +39,15 @@ def str_to_base64_str(s: str) -> str:
     return base64.b64encode(s.encode()).decode()
 
 
-TEMPLATE_EXTENSION = '.cpp'  # the template is only for C++
-TEMPLATE = resources.read_text(templates, 'template.cpp')
-# BUILD_COMMAND = resources.read_text(templates, 'build.bat')
-
 SOURCE_EXTENSIONS = [
     '.cpp',
     '.py',
 ]
+
+TEMPLATES = dict()
+for ext in SOURCE_EXTENSIONS:
+    TEMPLATES[ext] = resources.read_text(templates, f'template{ext}')
+DEFAULT_LANGUAGE = 'cpp'
 
 class Judge:
     """Default values for a Judge. This class should be extended."""
@@ -60,20 +61,22 @@ class Judge:
         return 'no source provided'
 
     @staticmethod
-    def local_directory_and_filename(problem_id, suffix=None):
+    def local_directory_and_filename_no_ext(problem_id, suffix=None):
         directory = problem_id
 
         filename = problem_id
         if suffix is not None:
             filename += '_' + suffix
-        filename += TEMPLATE_EXTENSION
-
+            
         return (directory, filename)
 
     @classmethod
-    def write_template(cls, problem_id, suffix=None, link=None) -> None:
-        directory, filename = cls.local_directory_and_filename(
-            problem_id, suffix)
+    def write_template(cls, problem_id, suffix=None, link=None, lang=None) -> None:
+        if lang is None:
+            lang = DEFAULT_LANGUAGE
+        directory, filename = cls.local_directory_and_filename_no_ext(
+            problem_id, suffix=suffix)
+        filename += f'.{lang}'
         if link is None:
             link = cls.link(problem_id)
 
@@ -97,7 +100,12 @@ class Judge:
                 print(f'File {code_file} not overwritten.')
                 return
 
-        template = TEMPLATE
+        ext = f'.{lang}'
+        if ext in TEMPLATES:
+            template = TEMPLATES[f'.{lang}']
+        else:
+            template = ''
+        
         # format template
         now = datetime.now().strftime('%x %X')
         template = template.replace('DATE', now)

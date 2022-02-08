@@ -1,4 +1,4 @@
-from .judge import Judge, TEMPLATE_EXTENSION
+from .judge import Judge
 
 from bs4 import BeautifulSoup
 
@@ -13,12 +13,10 @@ class Boj(Judge):
         return f'https://www.acmicpc.net/problem/{problem_id}'
 
     @staticmethod
-    def local_directory_and_filename(problem_id, suffix=None):
+    def local_directory_and_filename_no_ext(problem_id, suffix=None):
         filename = f'boj_{problem_id}'
         if suffix is not None:
             filename += f'_{suffix}'
-        filename += TEMPLATE_EXTENSION
-        
         return (f'boj_{problem_id}', filename)
 
     @classmethod
