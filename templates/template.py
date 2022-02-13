@@ -10,12 +10,16 @@ Comments about problem:
 """
 
 
+from dataclasses import dataclass
+from pprint import pprint
 import sys
 
 input = sys.stdin.readline
 
+
 def main():
-  pass
+    pass
+
 
 if __name__ == '__main__':
-  main()
+    main()
