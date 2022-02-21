@@ -15,13 +15,13 @@ class Kattis(Judge):
 
     @staticmethod
     def link(problem_id: str) -> str:
-        # if '_' in problem_id:
-        #     subdomain, problem_code = problem_id.split('_')
-        # else:
-        #     subdomain = 'open'
-        #     problem_code = problem_id
-        # return f'https://{subdomain}.kattis.com/problems/{problem_code}'
-        return 'kattis source is too annoying to track'
+        if '_' in problem_id:
+            subdomain, problem_code = problem_id.split('_')
+        else:
+            subdomain = 'open'
+            problem_code = problem_id
+        return f'https://{subdomain}.kattis.com/problems/{problem_code}'
+        # return 'kattis source is too annoying to track'
 
     @staticmethod
     def get_suffix_for_contest(index) -> str:
