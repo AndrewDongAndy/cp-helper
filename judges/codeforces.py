@@ -1,4 +1,4 @@
-from .judge import Judge
+from .judge import Judge, scrape_html
 
 from bs4 import BeautifulSoup
 import requests
@@ -48,7 +48,7 @@ class Codeforces(Judge):
 
     @classmethod
     def download_contest(cls, contest_id) -> bool:
-        res = requests.get(contest_url(contest_id))
+        res = scrape_html(contest_url(contest_id))
         if not (200 <= res.status_code < 300):
             return False
         html = res.text

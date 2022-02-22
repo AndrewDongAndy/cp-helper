@@ -30,6 +30,11 @@ GITHUB_TOKEN: str = os.getenv('GITHUB_TOKEN')
 session = requests.Session()
 session.auth = (GITHUB_USERNAME, GITHUB_TOKEN)
 
+web_page_session = requests.Session()
+web_page_session.headers = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36'
+}
+
 
 def github_api_url(path: str) -> str:
     return f'https://api.github.com{path}'
@@ -37,6 +42,10 @@ def github_api_url(path: str) -> str:
 
 def str_to_base64_str(s: str) -> str:
     return base64.b64encode(s.encode()).decode()
+
+
+def scrape_html(url: str) -> requests.Response:
+    return web_page_session.get(url)
 
 
 SOURCE_EXTENSIONS = [
@@ -130,11 +139,13 @@ class Judge:
 
         # pull input data from the problem link
         try:
-            res = requests.get(link)
+            res = scrape_html(link)
             if 200 <= res.status_code < 300:
                 # get sample input from the HTML
                 input_data = cls.get_input_data(res.text)
             else:
+                print(f'request to get input data from {link} failed with code {res.status_code}')
+                print(f'reason: {res.reason}')
                 input_data = []
         except requests.exceptions.MissingSchema:
             input_data = []
