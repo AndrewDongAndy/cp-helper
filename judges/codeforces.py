@@ -48,10 +48,9 @@ class Codeforces(Judge):
 
     @classmethod
     def download_contest(cls, contest_id) -> bool:
-        res = scrape_html(contest_url(contest_id))
-        if not (200 <= res.status_code < 300):
+        html = scrape_html(contest_url(contest_id))
+        if html is None:
             return False
-        html = res.text
         soup = BeautifulSoup(html, 'html.parser')
         anchor_tags = soup.select('tr > td.id > a')
         problems = [tag.text.strip() for tag in anchor_tags]

@@ -42,10 +42,9 @@ class Kattis(Judge):
 
     @classmethod
     def download_contest(cls, contest_id: str) -> bool:
-        res = scrape_html(contest_url(contest_id))
-        if not (200 <= res.status_code < 300):
+        html = scrape_html(contest_url(contest_id))
+        if html is None:
             return False
-        html = res.text
         soup = BeautifulSoup(html, 'html.parser')
         rows = soup.select('table#contest_problem_list > tbody > tr')
         letters = []

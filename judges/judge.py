@@ -15,6 +15,7 @@ import base64
 from datetime import datetime
 from importlib import resources
 import os
+from typing import Optional
 import requests
 
 from send2trash import send2trash
@@ -44,8 +45,12 @@ def str_to_base64_str(s: str) -> str:
     return base64.b64encode(s.encode()).decode()
 
 
-def scrape_html(url: str) -> requests.Response:
-    return web_page_session.get(url)
+def scrape_html(url: str) -> Optional[str]:
+    res = web_page_session.get(url)
+    if 200 <= res.status_code < 300:
+        return res.text
+    print(f'request to get input data from {url} failed with code {res.status_code}')
+    print(f'reason: {res.reason}')
 
 
 SOURCE_EXTENSIONS = [
@@ -139,13 +144,10 @@ class Judge:
 
         # pull input data from the problem link
         try:
-            res = scrape_html(link)
-            if 200 <= res.status_code < 300:
-                # get sample input from the HTML
-                input_data = cls.get_input_data(res.text)
+            html = scrape_html(link)
+            if html is not None:
+                input_data = cls.get_input_data(html)
             else:
-                print(f'request to get input data from {link} failed with code {res.status_code}')
-                print(f'reason: {res.reason}')
                 input_data = []
         except requests.exceptions.MissingSchema:
             input_data = []
