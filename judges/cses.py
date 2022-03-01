@@ -24,8 +24,12 @@ class Cses(Judge):
     @classmethod
     def get_input_data(cls, html: str) -> list[str]:
         soup = BeautifulSoup(html, 'html.parser')
-        tag = soup.select_one('#example~code')
+        tags = soup.select('[id^=example]~code')
+        # print(tags)
         input_data: list[str] = []
-        input_data.append(tag.text)
-        # pprint(tag)
+        if tags:
+            input_data.append(tags[0].text)
+        # for tag in tags:
+        #     pprint(tag)
+        #     input_data.append(tag.text)
         return input_data
