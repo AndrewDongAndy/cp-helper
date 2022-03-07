@@ -49,19 +49,24 @@ def scrape_html(url: str) -> Optional[str]:
     res = web_page_session.get(url)
     if 200 <= res.status_code < 300:
         return res.text
-    print(f'request to get input data from {url} failed with code {res.status_code}')
+    print(
+        f'request to get input data from {url} failed with code {res.status_code}')
     print(f'reason: {res.reason}')
 
 
 SOURCE_EXTENSIONS = [
     '.cpp',
     '.py',
+    '.clean_cpp',  # clean C++; no debug.h include
 ]
 
 TEMPLATES = dict()
 for ext in SOURCE_EXTENSIONS:
     TEMPLATES[ext] = resources.read_text(templates, f'template{ext}')
+
+# the default template to use is f'template.{DEFAULT_LANGUAGE}'
 DEFAULT_LANGUAGE = 'cpp'
+
 
 class Judge:
     """Default values for a Judge. This class should be extended."""
@@ -81,16 +86,18 @@ class Judge:
         filename = problem_id
         if suffix is not None:
             filename += '_' + suffix
-            
+
         return (directory, filename)
 
     @classmethod
     def write_template(cls, problem_id, suffix=None, link=None, lang=None) -> None:
         if lang is None:
             lang = DEFAULT_LANGUAGE
+        ext = f'.{lang}'
+
         directory, filename = cls.local_directory_and_filename_no_ext(
             problem_id, suffix=suffix)
-        filename += f'.{lang}'
+        filename += ext
         if link is None:
             link = cls.link(problem_id)
 
@@ -114,12 +121,13 @@ class Judge:
                 print(f'File {code_file} not overwritten.')
                 return
 
-        ext = f'.{lang}'
         if ext in TEMPLATES:
-            template = TEMPLATES[f'.{lang}']
+            template = TEMPLATES[ext]
         else:
+            print(
+                f'no template found for language "{lang}"; using empty template')
             template = ''
-        
+
         # format template
         now = datetime.now().strftime('%x %X')
         template = template.replace('DATE', now)
