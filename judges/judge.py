@@ -56,6 +56,7 @@ def scrape_html(url: str) -> Optional[str]:
 
 SOURCE_EXTENSIONS = [
     '.cpp',
+    '.c',
     '.py',
     '.clean_cpp',  # clean C++; no debug.h include
 ]
