@@ -60,6 +60,8 @@ SOURCE_EXTENSIONS = [
     '.clean_cpp',  # clean C++; no debug.h include
 ]
 
+# TODO: clean_cpp doesn't actually work right now
+
 TEMPLATES = dict()
 for ext in SOURCE_EXTENSIONS:
     TEMPLATES[ext] = resources.read_text(templates, f'template{ext}')
