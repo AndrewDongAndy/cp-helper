@@ -86,6 +86,7 @@ class Judge:
     def local_directory_and_filename_no_ext(problem_id, suffix=None):
         directory = problem_id
 
+        # make the filename without extension
         filename = problem_id
         if suffix is not None:
             filename += '_' + suffix
